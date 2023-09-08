@@ -21,6 +21,8 @@ const rgbeLoader = new RGBELoader();
  */
 // Debug
 const gui = new GUI();
+const environmentFolder = gui.addFolder("Environment");
+const render = gui.addFolder("Render");
 const global: Global = {
   envMapIntensity: 1,
 };
@@ -34,7 +36,7 @@ const scene = new THREE.Scene();
 /**
  * Update all materials
  */
-const updateAllMaterials = () => {
+const updateAllMaterials = (): void => {
   scene.traverse((child) => {
     if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
       child.material.envMapIntensity = global.envMapIntensity;
@@ -45,7 +47,13 @@ const updateAllMaterials = () => {
  * Environment map
  */
 // Global intensity
-gui.add(global, "envMapIntensity").min(0).max(10).step(0.001).onChange(updateAllMaterials).name("Env Map Intensity");
+environmentFolder
+  .add(global, "envMapIntensity")
+  .min(0)
+  .max(10)
+  .step(0.001)
+  .onChange(updateAllMaterials)
+  .name("Intensity");
 
 // HDR (RGBE) equirectangular
 rgbeLoader.load("/environmentMaps/0/2k.hdr", (environmentMap) => {
@@ -109,6 +117,19 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+//tone maping
+renderer.toneMapping = THREE.ReinhardToneMapping;
+
+render
+  .add(renderer, "toneMapping", {
+    No: THREE.NoToneMapping,
+    Linear: THREE.LinearToneMapping,
+    Reinhard: THREE.ReinhardToneMapping,
+    Cineon: THREE.CineonToneMapping,
+    ACESFilmic: THREE.ACESFilmicToneMapping,
+  })
+  .name("Tone mapping");
 
 /**
  * Animate
