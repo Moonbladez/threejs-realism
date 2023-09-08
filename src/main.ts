@@ -112,6 +112,7 @@ const floorNormalTexture = textureLoader.load("/textures/wood_cabinet_worn_long/
 const floorAoRoughnessMetallicTexture = textureLoader.load(
   "/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg"
 );
+floorColorTexture.colorSpace = THREE.SRGBColorSpace;
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(8, 8),
   new THREE.MeshStandardMaterial({
@@ -131,6 +132,7 @@ const wallNormalTexture = textureLoader.load("/textures/castle_brick_broken_06/c
 const wallAoRoughnessMetallicTexture = textureLoader.load(
   "/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg"
 );
+wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 const wall = new THREE.Mesh(
   new THREE.PlaneGeometry(8, 8),
   new THREE.MeshStandardMaterial({
