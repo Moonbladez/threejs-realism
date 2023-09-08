@@ -15,6 +15,7 @@ interface Global {
  */
 const gltfLoader = new GLTFLoader();
 const rgbeLoader = new RGBELoader();
+const textureLoader = new THREE.TextureLoader();
 
 /**
  * Base
@@ -104,6 +105,45 @@ gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", (gltf) => {
 
   updateAllMaterials();
 });
+
+//floor
+const floorColorTexture = textureLoader.load("/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg");
+const floorNormalTexture = textureLoader.load("/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.png");
+const floorAoRoughnessMetallicTexture = textureLoader.load(
+  "/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg"
+);
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(8, 8),
+  new THREE.MeshStandardMaterial({
+    map: floorColorTexture,
+    normalMap: floorNormalTexture,
+    aoMap: floorAoRoughnessMetallicTexture,
+    roughnessMap: floorAoRoughnessMetallicTexture,
+    metalnessMap: floorAoRoughnessMetallicTexture,
+  })
+);
+floor.rotation.x = -Math.PI * 0.5;
+scene.add(floor);
+
+//wall
+const wallColorTexture = textureLoader.load("/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg");
+const wallNormalTexture = textureLoader.load("/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png");
+const wallAoRoughnessMetallicTexture = textureLoader.load(
+  "/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg"
+);
+const wall = new THREE.Mesh(
+  new THREE.PlaneGeometry(8, 8),
+  new THREE.MeshStandardMaterial({
+    map: wallColorTexture,
+    normalMap: wallNormalTexture,
+    aoMap: wallAoRoughnessMetallicTexture,
+    roughnessMap: wallAoRoughnessMetallicTexture,
+    metalnessMap: wallAoRoughnessMetallicTexture,
+  })
+);
+wall.position.y = 4;
+wall.position.z = -4;
+scene.add(wall);
 
 /**
  * Sizes
